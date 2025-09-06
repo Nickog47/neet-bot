@@ -1,0 +1,7 @@
+{
+  "status": "ACTIVE",
+  "deployTime": "2025-09-06T10:59:02.016Z",
+  "strategy": "DYNAMIC_150_250",
+  "trigger": 0.019,
+  "lieutenant": "AUTHORIZED"
+}

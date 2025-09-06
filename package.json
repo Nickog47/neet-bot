@@ -1,0 +1,16 @@
+{
+  "name": "neet-bot",
+  "version": "1.0.0",
+  "description": "SOL-NEET Token Stop Loss Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@solana/spl-token": "^0.3.9",
+    "@solana/web3.js": "^1.87.6",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "express": "^5.1.0"
+  }
+}

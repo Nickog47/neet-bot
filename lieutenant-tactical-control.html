@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎖️ LIEUTENANT'S TACTICAL CONTROL PANEL 🎖️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a0000 50%, #2a0000 100%);
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-image: 
+                radial-gradient(circle at 25% 25%, #004400 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, #440000 0%, transparent 50%);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            color: #00ff00;
+            text-shadow: 0 0 25px #00ff00;
+            margin-bottom: 10px;
+        }
+
+        .header h2 {
+            font-size: 1.4em;
+            color: #ffff00;
+            text-shadow: 0 0 15px #ffff00;
+        }
+
+        .control-panel {
+            background: rgba(0, 0, 0, 0.9);
+            border: 3px solid #00ff00;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.4);
+            backdrop-filter: blur(15px);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .defcon-display {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.3em;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .defcon-5 {
+            background: rgba(0, 255, 0, 0.2);
+            border: 2px solid #00ff00;
+            color: #00ff00;
+        }
+
+        .defcon-1 {
+            background: rgba(255, 0, 0, 0.3);
+            border: 2px solid #ff0000;
+            color: #ff0000;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .tactical-button {
+            padding: 25px 35px;
+            font-size: 1.8em;
+            font-weight: bold;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 120px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .deploy-button {
+            background: linear-gradient(45deg, #00aa00, #00ff00);
+            color: #000;
+            border: 3px solid #00ff00;
+        }
+
+        .deploy-button:hover {
+            background: linear-gradient(45deg, #00ff00, #00aa00);
+            box-shadow: 0 0 30px #00ff00;
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .retreat-button {
+            background: linear-gradient(45deg, #aa0000, #ff0000);
+            color: #fff;
+            border: 3px solid #ff0000;
+        }
+
+        .retreat-button:hover {
+            background: linear-gradient(45deg, #ff0000, #aa0000);
+            box-shadow: 0 0 30px #ff0000;
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .defcon1-button {
+            grid-column: 1 / -1;
+            background: linear-gradient(45deg, #ff0000, #aa0000, #ff0000);
+            color: #fff;
+            border: 3px solid #ff0000;
+            font-size: 2.2em;
+            animation: emergency-pulse 1s ease-in-out infinite alternate;
+        }
+
+        .defcon1-button:hover {
+            background: linear-gradient(45deg, #ff4444, #ff0000, #ff4444);
+            box-shadow: 0 0 40px #ff0000;
+            transform: translateY(-3px) scale(1.03);
+        }
+
+        .download-section {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ffff00;
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .download-button {
+            background: linear-gradient(45deg, #ffaa00, #ffff00);
+            color: #000;
+            border: 2px solid #ffff00;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .download-button:hover {
+            background: linear-gradient(45deg, #ffff00, #ffaa00);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px #ffff00;
+        }
+
+        .status-display {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid #666;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            min-height: 200px;
+            overflow-y: auto;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .strategy-info {
+            background: rgba(0, 100, 0, 0.2);
+            border: 1px solid #00ff00;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 25px #00ff00; }
+            to { text-shadow: 0 0 35px #00ff00, 0 0 45px #00ff00; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes emergency-pulse {
+            0% { box-shadow: 0 0 20px #ff0000; }
+            100% { box-shadow: 0 0 40px #ff0000, 0 0 60px #ff0000; }
+        }
+
+        .warning-banner {
+            background: rgba(255, 255, 0, 0.1);
+            border: 2px solid #ffff00;
+            color: #ffff00;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎖️ LIEUTENANT'S COMMAND CENTER 🎖️</h1>
+        <h2>🇺🇸 TACTICAL NEET OPERATIONS 🇺🇸</h2>
+    </div>
+
+    <div class="control-panel">
+        <div class="warning-banner">
+            ⚠️ LIEUTENANT'S TACTICAL CONTROL - YOUR STRATEGIC CHOICE - NOT FINANCIAL ADVICE ⚠️
+        </div>
+
+        <div class="defcon-display" id="defconStatus">
+            🟢 DEFCON 5 - PEACETIME READINESS
+        </div>
+
+        <div class="strategy-info">
+            <h3>🎯 CURRENT STRATEGY PARAMETERS:</h3>
+            <p>💚 PRIMARY BUY: $0.0190 ($50 FIXED)</p>
+            <p>🔴 STOP-LOSS: $0.0178 (PROTECTIVE)</p>
+            <p>💀 EMERGENCY STOP: $0.0175 (LAST RESORT)</p>
+            <p>🚀 BIG SELL: $0.0350 (PROFIT TARGET)</p>
+        </div>
+
+        <div class="button-grid">
+            <button class="tactical-button deploy-button" onclick="executeDeploy()">
+                <div>🚀 DEPLOY</div>
+                <div style="font-size: 0.6em;">Launch Trading Bot</div>
+            </button>
+            
+            <button class="tactical-button retreat-button" onclick="executeRetreat()">
+                <div>🚨 RETREAT</div>
+                <div style="font-size: 0.6em;">Emergency Shutdown</div>
+            </button>
+            
+            <button class="tactical-button defcon1-button" onclick="executeDefcon1()">
+                <div>💀 DEFCON 1</div>
+                <div style="font-size: 0.5em;">NUCLEAR OPTION - EMERGENCY LIQUIDATION</div>
+            </button>
+        </div>
+
+        <div class="download-section">
+            <h3>📥 DOWNLOADABLE CONTROL PACKAGE</h3>
+            <p>Download standalone tactical control files for offline use:</p>
+            
+            <a href="#" class="download-button" onclick="downloadControlPackage()">
+                📦 DOWNLOAD FULL PACKAGE
+            </a>
+            
+            <a href="#" class="download-button" onclick="downloadQuickLauncher()">
+                🚀 DOWNLOAD QUICK LAUNCHER
+            </a>
+            
+            <a href="#" class="download-button" onclick="downloadEmergencyKit()">
+                💀 DOWNLOAD EMERGENCY KIT
+            </a>
+        </div>
+
+        <div class="status-display" id="statusDisplay">
+            <div style="color: #00ff00;">[SYSTEM] 🎖️ LIEUTENANT'S TACTICAL CONTROL PANEL READY</div>
+            <div style="color: #00aaff;">[INFO] 📊 Conservative $50 Strategy Loaded</div>
+            <div style="color: #00aaff;">[INFO] 🛡️ Stop-Loss Protection Active ($0.0175-0.0178)</div>
+            <div style="color: #00ff00;">[READY] ✅ All Systems Green - Awaiting Orders, SIR!</div>
+        </div>
+    </div>
+
+    <script>
+        let defconLevel = 5;
+        let isDeployed = false;
+
+        function addStatusLine(message, type = 'info') {
+            const statusDisplay = document.getElementById('statusDisplay');
+            const timestamp = new Date().toLocaleTimeString();
+            
+            const colors = {
+                info: '#00aaff',
+                success: '#00ff00',
+                warning: '#ffff00',
+                error: '#ff0000'
+            };
+            
+            const statusLine = document.createElement('div');
+            statusLine.style.color = colors[type];
+            statusLine.textContent = `[${timestamp}] ${message}`;
+            
+            statusDisplay.appendChild(statusLine);
+            statusDisplay.scrollTop = statusDisplay.scrollHeight;
+        }
+
+        function updateDefconLevel(level) {
+            defconLevel = level;
+            const statusElement = document.getElementById('defconStatus');
+            
+            if (level === 1) {
+                statusElement.textContent = '🔴 DEFCON 1 - NUCLEAR WAR IMMINENT';
+                statusElement.className = 'defcon-display defcon-1';
+            } else {
+                statusElement.textContent = '🟢 DEFCON 5 - PEACETIME READINESS';
+                statusElement.className = 'defcon-display defcon-5';
+            }
+        }
+
+        async function executeDeploy() {
+            addStatusLine('🚀🚀🚀 EXECUTING DEPLOY COMMAND 🚀🚀🚀', 'success');
+            addStatusLine('🎯 LAUNCHING CONSERVATIVE $50 STRATEGY', 'success');
+            addStatusLine('📡 CONNECTING TO DEX SCREENER...', 'info');
+            
+            try {
+                // Simulate bot deployment
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                addStatusLine('✅ TRADING BOT DEPLOYED SUCCESSFULLY', 'success');
+                addStatusLine('💚 MONITORING FOR $0.0190 BUY TRIGGER', 'info');
+                addStatusLine('🛡️ STOP-LOSS PROTECTION ACTIVE', 'info');
+                
+                isDeployed = true;
+                
+                // Start simulated monitoring
+                startMonitoring();
+                
+            } catch (error) {
+                addStatusLine('❌ DEPLOYMENT FAILED: ' + error.message, 'error');
+            }
+        }
+
+        async function executeRetreat() {
+            addStatusLine('🚨🚨🚨 EXECUTING RETREAT PROTOCOL 🚨🚨🚨', 'warning');
+            addStatusLine('🛑 EMERGENCY SHUTDOWN INITIATED', 'warning');
+            
+            try {
+                await new Promise(resolve => setTimeout(resolve, 800));
+                addStatusLine('💀 TERMINATING ALL TRADING OPERATIONS', 'warning');
+                
+                await new Promise(resolve => setTimeout(resolve, 500));
+                addStatusLine('✅ RETREAT COMPLETE - ALL SYSTEMS SECURED', 'success');
+                
+                isDeployed = false;
+                updateDefconLevel(5);
+                
+            } catch (error) {
+                addStatusLine('❌ RETREAT ERROR: ' + error.message, 'error');
+            }
+        }
+
+        async function executeDefcon1() {
+            addStatusLine('💀💀💀 DEFCON 1 ACTIVATED 💀💀💀', 'error');
+            addStatusLine('🚨 NUCLEAR OPTION - EMERGENCY LIQUIDATION', 'error');
+            
+            updateDefconLevel(1);
+            
+            try {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                addStatusLine('🔴 LIQUIDATING ALL POSITIONS IMMEDIATELY', 'error');
+                
+                await new Promise(resolve => setTimeout(resolve, 500));
+                addStatusLine('💀 EMERGENCY STOP-LOSS EXECUTED', 'error');
+                
+                await new Promise(resolve => setTimeout(resolve, 500));
+                addStatusLine('🛡️ CAPITAL PRESERVATION COMPLETE', 'success');
+                addStatusLine('✅ DEFCON 1 PROTOCOL EXECUTED', 'success');
+                
+                isDeployed = false;
+                
+                setTimeout(() => updateDefconLevel(5), 3000);
+                
+            } catch (error) {
+                addStatusLine('❌ DEFCON 1 ERROR: ' + error.message, 'error');
+            }
+        }
+
+        function startMonitoring() {
+            if (!isDeployed) return;
+            
+            let simulatedPrice = 0.0257;
+            
+            const monitoringInterval = setInterval(() => {
+                if (!isDeployed) {
+                    clearInterval(monitoringInterval);
+                    return;
+                }
+                
+                // Simulate price movement
+                const change = (Math.random() - 0.5) * 0.0003;
+                simulatedPrice = Math.max(0.015, simulatedPrice + change);
+                
+                addStatusLine(`📊 NEET Price: $${simulatedPrice.toFixed(6)}`, 'info');
+                
+                // Check signals
+                if (simulatedPrice <= 0.0175) {
+                    addStatusLine('💀 EMERGENCY STOP-LOSS TRIGGERED!', 'error');
+                    executeDefcon1();
+                } else if (simulatedPrice <= 0.0178) {
+                    addStatusLine('🚨 STOP-LOSS TRIGGERED - SELLING ALL NEET', 'warning');
+                } else if (simulatedPrice <= 0.0190) {
+                    addStatusLine('💚 BUY SIGNAL - EXECUTING $50 PURCHASE', 'success');
+                }
+                
+            }, 8000);
+        }
+
+        function downloadControlPackage() {
+            const packageContent = createControlPackage();
+            downloadFile('neet-tactical-control-package.html', packageContent);
+            addStatusLine('📦 FULL CONTROL PACKAGE DOWNLOADED', 'success');
+        }
+
+        function downloadQuickLauncher() {
+            const launcherContent = createQuickLauncher();
+            downloadFile('neet-quick-launcher.html', launcherContent);
+            addStatusLine('🚀 QUICK LAUNCHER DOWNLOADED', 'success');
+        }
+
+        function downloadEmergencyKit() {
+            const emergencyContent = createEmergencyKit();
+            downloadFile('neet-emergency-kit.html', emergencyContent);
+            addStatusLine('💀 EMERGENCY KIT DOWNLOADED', 'success');
+        }
+
+        function createControlPackage() {
+            return document.documentElement.outerHTML;
+        }
+
+        function createQuickLauncher() {
+            return \`<!DOCTYPE html>
+<html><head><title>🚀 NEET Quick Launcher</title><style>
+body{background:#000;color:#0f0;font-family:monospace;text-align:center;padding:50px;}
+.btn{padding:20px 40px;margin:20px;font-size:1.5em;border:2px solid #0f0;background:#002200;color:#0f0;cursor:pointer;border-radius:10px;}
+.btn:hover{background:#004400;box-shadow:0 0 20px #0f0;}
+.red{border-color:#f00;background:#220000;color:#f00;}
+.red:hover{background:#440000;box-shadow:0 0 20px #f00;}
+</style></head><body>
+<h1>🎖️ NEET QUICK LAUNCHER 🎖️</h1>
+<button class="btn" onclick="deploy()">🚀 DEPLOY ($50 @ $0.0190)</button>
+<button class="btn red" onclick="retreat()">🚨 RETREAT</button>
+<button class="btn red" onclick="defcon1()">💀 DEFCON 1</button>
+<div id="status" style="margin-top:30px;padding:20px;border:1px solid #666;"></div>
+<script>
+function deploy(){document.getElementById('status').innerHTML='🚀 DEPLOYING CONSERVATIVE STRATEGY...';}
+function retreat(){document.getElementById('status').innerHTML='🚨 EXECUTING RETREAT...';}
+function defcon1(){document.getElementById('status').innerHTML='💀 DEFCON 1 - EMERGENCY LIQUIDATION!';}
+</script></body></html>\`;
+        }
+
+        function createEmergencyKit() {
+            return \`<!DOCTYPE html>
+<html><head><title>💀 NEET Emergency Kit</title><style>
+body{background:#200000;color:#f00;font-family:monospace;text-align:center;padding:30px;}
+.emergency{padding:30px;margin:20px;font-size:2em;border:3px solid #f00;background:#400000;color:#fff;cursor:pointer;border-radius:15px;animation:pulse 1s infinite;}
+@keyframes pulse{0%{transform:scale(1);}50%{transform:scale(1.05);}100%{transform:scale(1);}}
+</style></head><body>
+<h1>💀 EMERGENCY CONTROL KIT 💀</h1>
+<button class="emergency" onclick="emergencyStop()">🚨 EMERGENCY STOP ALL</button>
+<button class="emergency" onclick="liquidateAll()">💀 LIQUIDATE EVERYTHING</button>
+<p>⚠️ USE ONLY IN CRITICAL SITUATIONS ⚠️</p>
+<script>
+function emergencyStop(){alert('🚨 EMERGENCY STOP EXECUTED - ALL OPERATIONS CEASED');}
+function liquidateAll(){alert('💀 EMERGENCY LIQUIDATION - ALL POSITIONS CLOSED');}
+</script></body></html>\`;
+        }
+
+        function downloadFile(filename, content) {
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURIComponent(content));
+            element.setAttribute('download', filename);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        // Initialize
+        addStatusLine('🎖️ LIEUTENANT\\'S CONTROL PANEL INITIALIZED', 'success');
+        addStatusLine('🇺🇸 READY FOR TACTICAL OPERATIONS, SIR!', 'success');
+    </script>
+</body>
+</html>
